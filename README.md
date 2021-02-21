@@ -1,3 +1,13 @@
+## OpenWrt Firmwares for NanoPi-R1S-H5
+
+**Only change the default IP to [192.168.2.1](192.168.2.1)**, just for learn how to use Github Actions.
+
+- - -
+## Last Building Status: ![NanoPi R1S-H5 OpenWrt](https://github.com/halftop/openwrt-nanopi-r1s-h5/actions/workflows/nanopi-r1s-openwrt.yml/badge.svg)
+## Download: [Actions](https://github.com/halftop/openwrt-nanopi-r1s-h5/actions) \(Login Needed\)
+- - -
+
+# ReadMe for [nanopi-r1s-openwrt](https://github.com/1715173329/nanopi-r1s-openwrt)
 ## OpenWrt Firmwares for NanoPi-R1S
 ### ⚠ WARNING: USE IT UNDER YOUR OWN RISK.
 - - -
@@ -7,7 +17,7 @@
 ## Introduction
 - ### Usage
 0. Please make sure at least **1G** space left on you SD card.
-1. Default login addr is [192.168.2.1](192.168.2.1), username / password: `root` / `password`.<br/>
+1. Default login addr is [192.168.1.1](192.168.1.1), username / password: `root` / `password`.<br/>
  Please change the login password **as soon as possible** once you logined.
 2. Once you flashed the firmware into SD card, you may simply use "Upgrade" function<br/>
  in LuCI (no need to decompress the **.gz** archive) if you want to update it.
