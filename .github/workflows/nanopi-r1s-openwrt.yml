@@ -1,11 +1,11 @@
-name: NanoPi R1S OpenWrt
+name: NanoPi R1S ImmortalWrt
 
 on:
   repository_dispatch:
   workflow_dispatch:
 
 jobs:
-  OpenWrt-18_06:
+  ImmortalWrt-18_06:
     runs-on: ubuntu-18.04
     steps:
     - name: Checkout Repository
@@ -29,52 +29,46 @@ jobs:
     - name: Clone Source
       run: |
         cd "/home/runner"
-        git clone --branch "openwrt-18.06" --single-branch "https://github.com/immortalwrt/immortalwrt" "openwrt"
-        sudo chown -R runner:runner "openwrt"
-        cd "/home/runner/openwrt"
+        git clone --branch "openwrt-18.06" --single-branch "https://github.com/immortalwrt/immortalwrt" "immortalwrt"
+        sudo chown -R runner:runner "immortalwrt"
+        cd "/home/runner/immortalwrt"
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-    - name: Build OpenWrt-18.06
+    - name: Build ImmortalWrt-18.06
       run: |
-        cd "/home/runner/openwrt"
+        cd "/home/runner/immortalwrt"
         cp -f "${GITHUB_WORKSPACE}/configs/1806-config.seed" ".config"
         chmod +x ${GITHUB_WORKSPACE}/scripts/customize.sh && ${GITHUB_WORKSPACE}/scripts/customize.sh
         make defconfig
         make -j$[$(nproc)+1]
-        mv -f "bin/targets/sunxi/cortexa53/openwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz" "../openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz"
-        mv -f "bin/targets/sunxi/cortexa53/openwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz" "../openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz"
-        mv -f "bin/targets/sunxi/cortexa53/sha256sums" "../openwrt-18.06-sha256sums"
-    - name: Rebuild OpenWrt-18.06 to Collect Error Log
+        mv -f "bin/targets/sunxi/cortexa53/immortalwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz" "../immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz"
+        mv -f "bin/targets/sunxi/cortexa53/immortalwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz" "../immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz"
+        mv -f "bin/targets/sunxi/cortexa53/sha256sums" "../immortalwrt-18.06-sha256sums"
+    - name: Rebuild ImmortalWrt-18.06 to Collect Error Log
       if: failure()
       run: |
-        cd "/home/runner/openwrt"
+        cd "/home/runner/immortalwrt"
         make -j1 V=s
-        mv -f "bin/targets/sunxi/cortexa53/openwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz" "../openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz"
-        mv -f "bin/targets/sunxi/cortexa53/openwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz" "../openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz"
-        mv -f "bin/targets/sunxi/cortexa53/sha256sums" "../openwrt-18.06-sha256sums"
-    - name: Upload OpenWrt-18.06 SHA256SUM Hash
+        mv -f "bin/targets/sunxi/cortexa53/immortalwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz" "../immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz"
+        mv -f "bin/targets/sunxi/cortexa53/immortalwrt-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz" "../immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz"
+        mv -f "bin/targets/sunxi/cortexa53/sha256sums" "../immortalwrt-18.06-sha256sums"
+    - name: Upload ImmortalWrt-18.06 SHA256SUM Hash
       uses: actions/upload-artifact@v2
       with:
-        name: openwrt-18.06-sha256sums
-        path: /home/runner/openwrt-18.06-sha256sums
-    - name: Upload OpenWrt-18.06 EXT4 Firmware
+        name: immortalwrt-18.06-sha256sums
+        path: /home/runner/immortalwrt-18.06-sha256sums
+    - name: Upload ImmortalWrt-18.06 EXT4 Firmware
       uses: actions/upload-artifact@v2
       with:
-        name: openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz
-        path: /home/runner/openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz
-    - name: Upload OpenWrt-18.06 SquashFS Firmware
+        name: immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz
+        path: /home/runner/immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz
+    - name: Upload ImmortalWrt-18.06 SquashFS Firmware
       uses: actions/upload-artifact@v2
       with:
-        name: openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz
-        path: /home/runner/openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz
-    #- name: Upload OpenWrt-18.06 Firmwares to Cloud
-    #  timeout-minutes: 30
-    #  run: |
-    #    cd "/home/runner"
-    #    zip -j "openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-sdcard.zip" "openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-ext4-sdcard.img.gz" "openwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz" "openwrt-18.06-sha256sums"
-    #    ${GITHUB_WORKSPACE}/scripts/upload_firmware.py  --device-name "FriendlyARM NanoPi R1S (H5)" --device-file "sunxi-cortexa53-friendlyarm_nanopi-r1s-h5" --openwrt-version "18.06" --kernel-version "4.19" --api-id "${{ secrets.TELEGRAM_API_ID }}" --api-hash "${{ secrets.TELEGRAM_API_HASH }}" --bot-token "${{ secrets.TELEGRAM_BOT_TOKEN }}" || exit 0
+        name: immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz
+        path: /home/runner/immortalwrt-18.06-sunxi-cortexa53-friendlyarm_nanopi-r1s-h5-squashfs-sdcard.img.gz
   Cleanup-Old-Artifacts:
-    needs: OpenWrt-18_06
+    needs: ImmortalWrt-18_06
     runs-on: ubuntu-18.04
     steps:
     - name: Cleanup Old Action Artifacts
