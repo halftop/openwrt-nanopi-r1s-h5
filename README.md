@@ -11,9 +11,6 @@
 ## OpenWrt Firmwares for NanoPi-R1S
 ### ⚠ WARNING: USE IT UNDER YOUR OWN RISK.
 - - -
-## Last Building Status: ![NanoPi R1S OpenWrt](https://github.com/1715173329/nanopi-r1s-openwrt/workflows/NanoPi%20R1S%20OpenWrt/badge.svg)
-## Download: [@nanopi\_r2s](https://t.me/nanopi\_r2s) or [Actions](https://github.com/1715173329/nanopi-r1s-openwrt/actions) \(Login Needed\)
-- - -
 ## Introduction
 - ### Usage
 0. Please make sure at least **1G** space left on you SD card.
